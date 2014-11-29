@@ -166,19 +166,19 @@ class brouter(irouter):
                 if not self.paths_from_peers.has_key(AS):
                     self.paths_from_peers[AS] = []
 
-                self.paths_from_peers[AS].append([AS],data['ID'])
+                self.paths_from_peers[AS].append(([AS],data['ID']))
 
             if AS in self.customers:
                 if not self.paths_from_customers.has_key(AS):
                     self.paths_from_customers[AS] = []
 
-                self.paths_from_customers[AS].append([AS],data['ID'])
+                self.paths_from_customers[AS].append(([AS],data['ID']))
 
             if AS in self.providers:
                 if not self.paths_from_providers.has_key(AS):
                     self.paths_from_providers[AS] = []
 
-                self.paths_from_providers[AS].append([AS],data['ID'])
+                self.paths_from_providers[AS].append(([AS],data['ID']))
 
     def fwd_lsa(self, msg):
         if not "OPTIONS" in msg:
