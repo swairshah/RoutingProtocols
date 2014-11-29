@@ -148,7 +148,8 @@ class brouter(irouter):
             if not self.other_as_brouters.has_key(data['AS']):
                 self.other_as_brouters[data['AS']] = []
 
-            self.other_as_brouters[data['AS']].append((data['ID'],data['src_ip']))
+            if not (data['ID'],data['src_ip']) in self.other_as_brouters[data['AS']]:
+                self.other_as_brouters[data['AS']].append((data['ID'],data['src_ip']))
 
             # also add a BGP path:
             # check if AS is peer/customer/provider,
