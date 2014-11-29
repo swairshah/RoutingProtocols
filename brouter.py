@@ -114,8 +114,8 @@ class brouter(irouter):
             raise Exception("seems like nn,hh pairs are not complete!")
 
         for i in xrange(1,addr_num/2+1):
-            nn = args[i*2]
-            hh = args[i*2+1]
+            nn = args[i*2+1]
+            hh = args[i*2+2]
             ip_addrs.append(tuple([nn,hh]))
 
         return ID,AS,ip_addrs
