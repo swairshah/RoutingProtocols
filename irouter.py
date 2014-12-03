@@ -115,11 +115,11 @@ class irouter:
         src_dst, tmp = rest.split("LSA")
         src, dst = src_dst.strip().split(' ')
 
-        dst_net = dst.strip('()').split(',')[0].strip("'")
-        dst_host = dst.strip('()').split(',')[1].strip("'")
+        dst_net = dst.strip('()').split(',')[0]
+        dst_host = dst.strip('()').split(',')[1]
 
-        src_net = src.strip('()').split(',')[0].strip("'")
-        src_host = src.strip('()').split(',')[1].strip("'")
+        src_net = src.strip('()').split(',')[0]
+        src_host = src.strip('()').split(',')[1]
 
         ret['src_ip'] = (src_net, src_host)
         ret['dst_ip'] = (dst_net, dst_host)
@@ -172,7 +172,7 @@ class irouter:
                     host = ip[1]
                     #print "net: "+net+" old_net "+old_net+" "+str(net == old_net)
                     if net != old_net:
-                        new_dst = (net,'99')
+                        new_dst = '('+net+',99)'
                         fwd_msg = old_src+" "+str(new_dst).replace(' ','')+rest
                         self.fwd_lsa(fwd_msg)
 
@@ -217,20 +217,20 @@ class irouter:
         self.read()
         #print self.ID+" :bids "+str(self.old_bids)
         #if i%10 == 0: 
-        if i%10 == 0: 
+        if i%5 == 0: 
             self.do_lsa()
-        if i%15 == 0:
+        if i%10 == 0:
             pass
-        if i%30 == 0:
+        if i%12 == 0:
             #TODO: check for dead nodes
-            self.mk_routing_table()
-            print "graph for "+self.ID+" : "+ str(self.g.graph)
+            self.make_routing_table()
+            #print "graph for "+self.ID+" : "+ str(self.g.graph)
             pass
         sleep(1)
 
 
 if __name__ == "__main__":
     r = irouter(sys.argv)
-    for i in range(60):
+    for i in range(15):
         r.run(i)
 
