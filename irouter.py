@@ -185,46 +185,31 @@ class irouter:
             net = ip[0]
             host= ip[1]
 
-            dst = (net,'99')
+            dst = '('+net+',99)'
+            src = '('+net+','+host+')'
             networks = ' '.join(self.nets)
 
-            msg = str(ip).replace(' ','')+' '+str(dst).replace(' ','')+' LSA '+ \
-            self.ID+' '+str(self.bid)+' NETWKS '+networks
+            msg = src+' '+dst+' LSA '+ self.ID+' '+str(self.bid)+' NETWKS '+networks
 
             self.send(msg)
 
-    def mk_routing_table(self):
+    def make_routing_table(self):
         """
         routing table entries look like:
-        dest next_hop time_stamp
-        03   02       01:41:05 2014-11-26
+        dest_network next_hop time_stamp
+        03           02       01:41:05 2014-11-26
         """
         
         # check old_bid_timers, if node's last
         # bid was 30 seconds before current time,
         # delete node from graph.
         current_time = time()
-        for node,last_time in self.old_bid_timers.iteritems():
-            if current_time - last_time > 30.0:
-                print self.ID,' removing node:', node, 'timediff: ', (current_time-last_time) 
-                self.g.remove_node(node)
 
         f = open(self.routing,'a')
-        for n in self.g.nodes:
-            shortest_path = self.g.shortest_path(self.ID, n)
-            print self.ID, n, " path ", str(shortest_path)
-
-            if shortest_path == None:
-                next_hop = "--"
-            elif len(shortest_path) > 1:
-                next_hop = shortest_path[1]
-            else:
-                next_hop = self.ID
-
+        time_stamp = strftime("%H:%M:%S", localtime())
+        for k,v in self.g.routing_table(self.ID).iteritems():
+            f.write(k+"      "+v+"      "+time_stamp+"\n")
             #time_stamp = strftime("%H:%M:%S %Y-%m-%d", time.localtime())
-            time_stamp = strftime("%H:%M:%S", localtime())
-            route = n+" "+next_hop+" "+time_stamp
-            f.write(route+"\n")
 
         f.close()
 
