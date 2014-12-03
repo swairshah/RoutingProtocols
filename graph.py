@@ -44,10 +44,14 @@ class Graph:
         chosen_path = None
         for n in self.edges[edge]:
             candidate = self.shortest_path(src,n)
-            if len(candidate) <= shortest:
-                shortest = len(candidate)
-                chosen_node = n
-                chosen_path = candidate
+            if candidate == None:
+                chosen_path = ['--']
+            else:
+                if len(candidate) <= shortest:
+                    shortest = len(candidate)
+                    chosen_node = n
+                    chosen_path = candidate
+
         if len(chosen_path) == 1:
             return chosen_path[0]
         else:
