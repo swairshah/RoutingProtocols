@@ -143,8 +143,13 @@ class irouter:
             # implemented in brouter class
             if "OPTIONS" in msg:
                 lsa_msg, rest = msg.split("OPTIONS")
-                self.process_brouter(msg)
                 msg = lsa_msg.strip()
+
+                # IF AS of msg is NOT equal to self.AS then
+                # DO NOT forward the message
+                if self.__class__.__name__ == 'brouter' and \
+                        data['AS'] != self.AS:
+                            return
             
             if self.old_bids.has_key(nid):
                 #check if values corresp. to
