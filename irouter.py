@@ -65,9 +65,6 @@ class irouter:
             if msg != '':
                 self.process(msg)
 
-    def process_brouter(self, msg):
-        pass
-
     def parse_msg(self, msg):
         """ Example:
         parse_msg((08,05) (08,99) LSA 11 25 NETWKS 09 08 12 OPTIONS BORDER 02)
